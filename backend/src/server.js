@@ -13,6 +13,7 @@ import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 
 // ─── Routes
+import healthRoutes from "./routes/healthRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import issueRoutes from "./routes/issueRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
@@ -96,6 +97,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use(cookieParser());
 
 // ─── Routes
+app.use("/api/health", healthRoutes);
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/admin", adminRoutes);
