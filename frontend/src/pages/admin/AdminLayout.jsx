@@ -29,7 +29,7 @@ const SidebarContent = ({ user, onLogout, onLinkClick }) => (
         <MapPin size={15} className="text-white" />
       </div>
       <span className="font-extrabold text-white text-[16px] tracking-tight shrink-0">
-        Smart<span className="text-emerald-400">Nepal</span>
+        Digital<span className="text-emerald-400">Sewa</span>
       </span>
       <span
         className="text-[9px] font-bold text-emerald-400 bg-emerald-400/10
@@ -81,10 +81,10 @@ const SidebarContent = ({ user, onLogout, onLinkClick }) => (
           </span>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-bold text-white truncate">
-            {user?.name}
+          <p className="text-xs font-bold text-white truncate">{user?.name}</p>
+          <p className="text-[10px] text-slate-500 truncate mt-0.5">
+            {user?.email}
           </p>
-          <p className="text-[10px] text-slate-500 truncate mt-0.5">{user?.email}</p>
         </div>
       </div>
       <button

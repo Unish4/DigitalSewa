@@ -37,7 +37,7 @@ const sendEmail = async ({ to, subject, html }) => {
   if (!transporter) return; // Email not configured — skip silently
 
   await transporter.sendMail({
-    from: `"SmartNepal 📍" <${ENV.GMAIL_USER}>`,
+    from: `"DigitalSewa 📍" <${ENV.GMAIL_USER}>`,
     to,
     subject,
     html,

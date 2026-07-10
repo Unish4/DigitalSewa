@@ -2,7 +2,7 @@ import cloudinary from "../config/cloudinary.js";
 
 export const uploadToCloudinary = (
   buffer,
-  folder = "SmartNepal",
+  folder = "DigitalSewa",
   transformation = [
     { width: 1200, crop: "limit" },
     { quality: "auto:good" },

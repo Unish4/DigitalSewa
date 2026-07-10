@@ -48,7 +48,7 @@ const Navbar = () => {
           <MapPin size={15} className="text-white" />
         </div>
         <span className="font-bold text-[#0f172a] text-[15px] tracking-tight">
-          Smart<span className="text-[#16a34a]">Nepal</span>
+          Digital<span className="text-[#16a34a]">Sewa</span>
         </span>
       </Link>
 

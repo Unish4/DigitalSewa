@@ -32,7 +32,7 @@ export const createIssue = async (req, res, next) => {
     let imageUrls = [];
     if (req.files?.length > 0) {
       const results = await Promise.all(
-        req.files.map((f) => uploadToCloudinary(f.buffer, "smartnepal/issues")),
+        req.files.map((f) => uploadToCloudinary(f.buffer, "DigitalSewa/issues")),
       );
       imageUrls = results.map((r) => r.secure_url);
     }

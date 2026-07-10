@@ -70,7 +70,7 @@ export default function RegisterPage() {
 
     try {
       await registerAction(payload);
-      toast.success("Account created! Welcome to SmartNepal.");
+      toast.success("Account created! Welcome to DigitalSewa.");
       navigate("/");
     } catch (error) {
       toast.error(

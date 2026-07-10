@@ -185,7 +185,7 @@ export default function LoginPage() {
                 Welcome back
               </h2>
               <p className="text-sm text-[#64748b] mt-1.5">
-                Sign in to your SmartNepal account
+                Sign in to your DigitalSewa account
               </p>
             </div>
 

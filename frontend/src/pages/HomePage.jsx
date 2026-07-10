@@ -109,7 +109,7 @@ export default function HomePage() {
 
               <p className="text-[#475569] text-lg leading-relaxed mb-8 max-w-130">
                 Report broken roads, garbage, water issues, and more in seconds.
-                SmartNepal connects citizens directly to their municipalities.
+                DigitalSewa connects citizens directly to their municipalities.
               </p>
 
               <div className="flex flex-wrap gap-3 mb-6">
@@ -203,7 +203,7 @@ export default function HomePage() {
       <section className="bg-white border-y border-[#e2e8f0]">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <h2 className="text-3xl font-bold text-[#0f172a] text-center mb-2">
-            How SmartNepal works
+            How DigitalSewa works
           </h2>
           <p className="text-[#94a3b8] text-center mb-10">
             Three simple steps to get your issue resolved.
@@ -253,7 +253,7 @@ export default function HomePage() {
             What can you report?
           </h2>
           <p className="text-[#94a3b8] text-center mb-10">
-            SmartNepal handles every kind of civic issue.
+            DigitalSewa handles every kind of civic issue.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {CATEGORIES.map(({ Icon, label, desc, color, bg }) => (
@@ -294,7 +294,7 @@ export default function HomePage() {
                   <MapPin size={14} className="text-white" />
                 </div>
                 <span className="font-bold text-white text-[15px]">
-                  SmartNepal
+                  DigitalSewa
                 </span>
               </div>
               <p className="text-[#64748b] text-sm max-w-60 leading-relaxed">
@@ -334,7 +334,7 @@ export default function HomePage() {
             className="border-t border-[#1e293b] mt-10 pt-6 flex items-center
             justify-between text-xs text-[#475569]"
           >
-            <p>© {new Date().getFullYear()} SmartNepal</p>
+            <p>© {new Date().getFullYear()} DigitalSewa</p>
             <p>Built for Nepal 🇳🇵</p>
           </div>
         </div>

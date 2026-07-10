@@ -179,7 +179,7 @@ export default function ProfilePage() {
             text-xs font-semibold px-3 py-1.5 rounded-full border border-[#bbf7d0] mb-5"
           >
             <User size={11} />
-            Your SmartNepal account
+            Your DigitalSewa account
           </div>
 
           <h1
@@ -297,7 +297,7 @@ export default function ProfilePage() {
                     Account Information
                   </h3>
                   <p className="text-sm text-[#94a3b8] mt-0.5">
-                    Your registered details on SmartNepal
+                    Your registered details on DigitalSewa
                   </p>
                 </div>
                 {!isEditing && (
@@ -484,7 +484,7 @@ export default function ProfilePage() {
                   Notification Preferences
                 </h3>
                 <p className="text-sm text-[#94a3b8] mt-0.5">
-                  Choose how SmartNepal keeps you updated
+                  Choose how DigitalSewa keeps you updated
                 </p>
               </div>
 

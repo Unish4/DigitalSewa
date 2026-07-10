@@ -10,15 +10,18 @@ import axios from "axios";
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
   withCredentials: true, // sends the httpOnly JWT cookie cross-origin
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Request interceptor — passes all requests through unchanged.
 // withCredentials on the instance handles cookie attachment automatically.
 api.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    // Only set Content-Type for JSON requests, not FormData
+    if (!(config.data instanceof FormData)) {
+      config.headers["Content-Type"] = "application/json";
+    }
+    return config;
+  },
   (error) => Promise.reject(error),
 );
 

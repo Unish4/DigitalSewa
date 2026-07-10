@@ -1,4 +1,4 @@
-# SmartNepal 📍
+# DigitalSewa 📍
 
 A civic issue reporting platform for Nepal that empowers citizens to report local problems directly to their municipality. Built with modern web technologies to bridge the gap between citizens and local government.
 
@@ -52,7 +52,7 @@ A civic issue reporting platform for Nepal that empowers citizens to report loca
 ## 📁 Project Structure
 
 ```
-SmartNepal/
+DigitalSewa/
 ├── backend/
 │   ├── src/
 │   │   ├── config/          # Configuration files (env, db)
@@ -99,7 +99,7 @@ SmartNepal/
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd SmartNepal
+   cd DigitalSewa
    ```
 
 2. **Install dependencies**
@@ -117,7 +117,7 @@ SmartNepal/
 
    Create a `.env` file in the `backend` directory:
    ```env
-   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/smartnepal_db
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/DigitalSewa_db
    PORT=3000
    NODE_ENV=development
    CLIENT_URL=http://localhost:5173
@@ -255,7 +255,7 @@ This project is licensed under the ISC License.
 
 ## 👥 Authors
 
-- SmartNepal Development Team
+- DigitalSewa Development Team
 
 ## 🙏 Acknowledgments
 

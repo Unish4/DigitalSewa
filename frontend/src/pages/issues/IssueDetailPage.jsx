@@ -32,7 +32,7 @@ function IssueTimeline({ status }) {
     {
       key: "submitted",
       title: "Issue Submitted",
-      desc: "Report filed via SmartNepal by citizen.",
+      desc: "Report filed via DigitalSewa by citizen.",
     },
     {
       key: "verified",

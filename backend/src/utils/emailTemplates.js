@@ -4,7 +4,7 @@ const baseWrapper = (content) => `
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartNepal Notification</title>
+  <title>DigitalSewa Notification</title>
 </head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,Helvetica,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:32px 16px;">
@@ -43,9 +43,9 @@ const baseWrapper = (content) => `
             <td style="padding:20px 28px;border-top:1px solid #f1f5f9;background:#f8fafc;">
               <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.6;">
                 You are receiving this notification because you reported a civic issue
-                via SmartNepal.
+                via DigitalSewa.
                 <br/>
-                © ${new Date().getFullYear()} SmartNepal · Serving citizens across 7 provinces of Nepal.
+                © ${new Date().getFullYear()} DigitalSewa · Serving citizens across 7 provinces of Nepal.
               </p>
             </td>
           </tr>
@@ -122,7 +122,7 @@ const ctaButton = (href, label) => `
 
 // ── Template 1: Verified 
 export const verifiedTemplate = (issue, frontendUrl) => ({
-  subject: `✓ Your report has been verified — SmartNepal`,
+  subject: `✓ Your report has been verified — DigitalSewa`,
   html: baseWrapper(`
     <p style="margin:0 0 16px;font-size:22px;font-weight:700;color:#0f172a;">
       Your report has been verified
@@ -159,7 +159,7 @@ export const verifiedTemplate = (issue, frontendUrl) => ({
 
 // ── Template 2: In Progress 
 export const inProgressTemplate = (issue, frontendUrl) => ({
-  subject: `🔧 Work has started on your report — SmartNepal`,
+  subject: `🔧 Work has started on your report — DigitalSewa`,
   html: baseWrapper(`
     <p style="margin:0 0 16px;font-size:22px;font-weight:700;color:#0f172a;">
       Work has started on your issue
@@ -183,7 +183,7 @@ export const inProgressTemplate = (issue, frontendUrl) => ({
 
 // ── Template 3: Resolved 
 export const resolvedTemplate = (issue, frontendUrl) => ({
-  subject: `🎉 Your issue has been resolved — SmartNepal`,
+  subject: `🎉 Your issue has been resolved — DigitalSewa`,
   html: baseWrapper(`
     <p style="margin:0 0 16px;font-size:22px;font-weight:700;color:#0f172a;">
       Your issue has been resolved!
@@ -207,7 +207,7 @@ export const resolvedTemplate = (issue, frontendUrl) => ({
 
 // ── Template 4: Rejected 
 export const rejectedTemplate = (issue, rejectionReason, frontendUrl) => ({
-  subject: `Your report could not be actioned — SmartNepal`,
+  subject: `Your report could not be actioned — DigitalSewa`,
   html: baseWrapper(`
     <p style="margin:0 0 16px;font-size:22px;font-weight:700;color:#0f172a;">
       Your report could not be actioned

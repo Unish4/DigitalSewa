@@ -86,7 +86,7 @@ const useAuthStore = create(
       },
     }),
     {
-      name: "smartnepal-auth",
+      name: "DigitalSewa-auth",
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
