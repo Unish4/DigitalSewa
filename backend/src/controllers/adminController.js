@@ -558,6 +558,45 @@ export const assignIssue = async (req, res, next) => {
   }
 };
 
+export const deleteCitizen = async (req, res, next) => {
+  try {
+    const userToDelete = await User.findById(req.params.id);
+    if (!userToDelete) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    if (userToDelete.role !== "citizen") {
+      return res.status(403).json({
+        success: false,
+        message: "Only citizen accounts can be deleted",
+      });
+    }
+
+    await userToDelete.deleteOne();
+
+    await logAdminAction({
+      actor: req.user,
+      action: "user_deletion",
+      targetType: "User",
+      targetId: userToDelete._id,
+      details: { name: userToDelete.name, email: userToDelete.email },
+    });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Citizen account deleted successfully" });
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid user ID format" });
+    }
+    next(error);
+  }
+};
+
 export const triggerEscalationSweep = async (req, res, next) => {
   try {
     const result = await runEscalationCheck();
@@ -566,3 +605,4 @@ export const triggerEscalationSweep = async (req, res, next) => {
     next(error);
   }
 };
+

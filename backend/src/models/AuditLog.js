@@ -18,6 +18,7 @@ const auditLogSchema = new mongoose.Schema(
         "admin_created",
         "admin_jurisdiction_update",
         "field_worker_created",
+        "user_deletion",
       ],
       required: true,
     },

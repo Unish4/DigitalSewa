@@ -673,6 +673,26 @@ export const openapiSpec = {
         responses: { 200: successEnvelope({ type: "object" }) },
       },
     },
+    "/api/admin/users/{id}": {
+      delete: {
+        tags: ["Admin"],
+        summary: "Delete a citizen account (super_admin only)",
+        security: [{ cookieAuth: [] }],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: successEnvelope({ type: "object" }),
+          403: errorResponse,
+          404: errorResponse,
+        },
+      },
+    },
     "/api/admin/analytics": {
       get: {
         tags: ["Admin"],

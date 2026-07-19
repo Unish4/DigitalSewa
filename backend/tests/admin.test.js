@@ -42,4 +42,54 @@ describe("Admin route protection", () => {
     expect(res.status).toBe(200);
     expect(res.body.stats).toBeDefined();
   });
+
+  describe("Citizen deletion (super_admin only)", () => {
+    it("allows super_admin to delete a citizen account", async () => {
+      const citizenEmail = "delete_me@test.com";
+      await registerAndLogin(citizenEmail, "citizen");
+      const citizenUser = await User.findOne({ email: citizenEmail });
+      expect(citizenUser).toBeDefined();
+
+      const superAdminCookie = await registerAndLogin("superadmin@test.com", "super_admin");
+      const res = await request(app)
+        .delete(`/api/admin/users/${citizenUser._id}`)
+        .set("Cookie", superAdminCookie);
+
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+
+      const deletedUser = await User.findById(citizenUser._id);
+      expect(deletedUser).toBeNull();
+    });
+
+    it("blocks super_admin from deleting another admin account", async () => {
+      const adminEmail = "other_admin@test.com";
+      await registerAndLogin(adminEmail, "admin");
+      const adminUser = await User.findOne({ email: adminEmail });
+
+      const superAdminCookie = await registerAndLogin("superadmin2@test.com", "super_admin");
+      const res = await request(app)
+        .delete(`/api/admin/users/${adminUser._id}`)
+        .set("Cookie", superAdminCookie);
+
+      expect(res.status).toBe(403);
+      expect(res.body.success).toBe(false);
+
+      const checkUser = await User.findById(adminUser._id);
+      expect(checkUser).toBeDefined();
+    });
+
+    it("blocks a regular admin from deleting a citizen account", async () => {
+      const citizenEmail = "citizen_safety@test.com";
+      await registerAndLogin(citizenEmail, "citizen");
+      const citizenUser = await User.findOne({ email: citizenEmail });
+
+      const adminCookie = await registerAndLogin("regular_admin@test.com", "admin");
+      const res = await request(app)
+        .delete(`/api/admin/users/${citizenUser._id}`)
+        .set("Cookie", adminCookie);
+
+      expect(res.status).toBe(403);
+    });
+  });
 });

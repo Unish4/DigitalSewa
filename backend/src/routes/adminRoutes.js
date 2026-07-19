@@ -8,6 +8,7 @@ import {
   getFieldWorkers,
   assignIssue,
   triggerEscalationSweep,
+  deleteCitizen,
 } from "../controllers/adminController.js";
 import {
   createAdmin,
@@ -93,5 +94,6 @@ router.patch(
   updateAdminJurisdiction,
 );
 router.post("/escalations/run", requireSuperAdmin, triggerEscalationSweep);
+router.delete("/users/:id", requireSuperAdmin, deleteCitizen);
 
 export default router;

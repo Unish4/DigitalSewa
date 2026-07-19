@@ -21,6 +21,12 @@ export const fetchAllUsers = async (params = {}) => {
   return response.data;
 };
 
+export const deleteCitizenRequest = async (id) => {
+  const response = await api.delete(`/api/admin/users/${id}`);
+  return response.data;
+};
+
+
 export const createFieldWorkerRequest = async (data) => {
   const response = await api.post("/api/admin/field-workers", data);
   return response.data;

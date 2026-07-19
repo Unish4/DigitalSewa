@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Users } from "lucide-react";
-import { fetchAllUsers } from "../../services/adminService.js";
+import { Users, Trash2 } from "lucide-react";
+import { fetchAllUsers, deleteCitizenRequest } from "../../services/adminService.js";
 import { timeAgo } from "../../utils/timeAgo.js";
 import { TableRowSkeleton } from "../../components/ui/SkeletonLoader.jsx";
+import useAuthStore from "../../store/useAuthStore.js";
+import toast from "react-hot-toast";
+import ConfirmDialog from "../../components/ui/ConfirmDialog.jsx";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -10,6 +13,34 @@ const AdminUsersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const { user: currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "super_admin";
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteCitizenRequest(deleteTarget._id);
+      toast.success("Citizen account deleted successfully");
+      setUsers((prev) => prev.filter((u) => u._id !== deleteTarget._id));
+      if (pagination) {
+        setPagination((prev) => ({
+          ...prev,
+          total: Math.max(0, prev.total - 1),
+        }));
+      }
+      setDeleteTarget(null);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete citizen account");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+
 
   useEffect(() => {
     let isMounted = true;
@@ -77,6 +108,7 @@ const AdminUsersPage = () => {
                   "Province",
                   "Phone",
                   "Joined",
+                  ...(isSuperAdmin ? ["Actions"] : []),
                 ].map((h) => (
                   <th
                     key={h}
@@ -91,7 +123,7 @@ const AdminUsersPage = () => {
             <tbody className="divide-y divide-[#f8fafc]">
               {isLoading ? (
                 Array.from({ length: 10 }).map((_, i) => (
-                  <TableRowSkeleton key={i} colCount={6} />
+                  <TableRowSkeleton key={i} colCount={isSuperAdmin ? 7 : 6} />
                 ))
               ) : users.length > 0 ? (
                 users.map((user) => (
@@ -155,11 +187,25 @@ const AdminUsersPage = () => {
                         {timeAgo(user.createdAt)}
                       </p>
                     </td>
+
+                    {/* Actions */}
+                    {isSuperAdmin && (
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <button
+                          onClick={() => setDeleteTarget(user)}
+                          disabled={isDeleting}
+                          className="text-xs text-red-600 hover:text-red-800 hover:underline font-medium flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                        >
+                          <Trash2 size={12} />
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-4 py-20 text-center">
+                  <td colSpan={isSuperAdmin ? 7 : 6} className="px-4 py-20 text-center">
                     <Users size={32} className="text-[#e2e8f0] mx-auto mb-3" />
                     <p className="text-sm text-[#94a3b8]">No users found</p>
                   </td>
@@ -202,6 +248,15 @@ const AdminUsersPage = () => {
           </div>
         )}
       </div>
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Delete citizen account?"
+        description={`"${deleteTarget?.name}" (${deleteTarget?.email}) will be permanently deleted. This action cannot be undone.`}
+        confirmLabel="Delete"
+        isLoading={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onClose={() => !isDeleting && setDeleteTarget(null)}
+      />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   FileText,
   Download,
+  Trash2,
 } from "lucide-react";
 import { fetchAllIssues } from "../../services/adminService.js";
 import {
@@ -29,7 +30,9 @@ import {
   downloadIssuesPDF,
 } from "../../services/adminService.js";
 import { downloadBlob } from "../../utils/downloadBlob.js";
+import { deleteIssueRequest } from "../../services/issueService.js";
 import toast from "react-hot-toast";
+import ConfirmDialog from "../../components/ui/ConfirmDialog.jsx";
 
 const AdminIssuesPage = () => {
   const [issues, setIssues] = useState([]);
@@ -52,6 +55,32 @@ const AdminIssuesPage = () => {
 
   const debouncedSearch = useDebounce(search, 400);
   const [isExporting, setIsExporting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteIssueRequest(deleteTarget._id);
+      toast.success("Issue deleted successfully");
+      setIssues((prev) => prev.filter((i) => i._id !== deleteTarget._id));
+      if (pagination) {
+        setPagination((prev) => ({
+          ...prev,
+          total: Math.max(0, prev.total - 1),
+        }));
+      }
+      setDeleteTarget(null);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete issue");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+
 
   useEffect(() => {
     let isMounted = true;
@@ -587,6 +616,17 @@ const AdminIssuesPage = () => {
                               Assign
                             </button>
                           )}
+                          {/* Super Admin Delete Button */}
+                          {isSuperAdmin && (
+                            <button
+                              onClick={() => setDeleteTarget(issue)}
+                              disabled={isDeleting}
+                              className="text-xs text-red-600 hover:underline font-medium flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                            >
+                              <Trash2 size={11} />
+                              Delete
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -655,6 +695,15 @@ const AdminIssuesPage = () => {
           onAssigned={handleIssueUpdated}
         />
       )}
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Delete this report?"
+        description={`"${deleteTarget?.title}" will be permanently removed. This action cannot be undone.`}
+        confirmLabel="Delete"
+        isLoading={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onClose={() => !isDeleting && setDeleteTarget(null)}
+      />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import request from "supertest";
 import app from "../src/app.js";
+import User from "../src/models/User.js";
 
 vi.mock("../src/utils/uploadToCloudinary.js", () => ({
   uploadToCloudinary: vi.fn().mockResolvedValue({
@@ -13,12 +14,18 @@ vi.mock("../src/services/aiService.js", () => ({
   findDuplicates: vi.fn().mockResolvedValue([]),
 }));
 
-const registerAndLogin = async (email) => {
+const registerAndLogin = async (email, role = "citizen") => {
   const res = await request(app).post("/api/auth/register").send({
     name: "Test Citizen",
     email,
     password: "password123",
   });
+  if (role !== "citizen") {
+    const user = await User.findOneAndUpdate({ email }, { role, twoFactorEnabled: true }, { new: true });
+    const { default: generateToken } = await import("../src/utils/generateToken.js");
+    const token = generateToken(user, true);
+    return [`token=${token}`];
+  }
   return res.headers["set-cookie"];
 };
 
@@ -83,6 +90,23 @@ describe("Issue creation and ownership", () => {
     const deleteRes = await request(app)
       .delete(`/api/issues/${createRes.body.issue._id}`)
       .set("Cookie", cookie);
+
+    expect(deleteRes.status).toBe(200);
+  });
+
+  it("allows a super_admin to delete any issue", async () => {
+    const ownerCookie = await registerAndLogin("owner3@test.com");
+    const createRes = await request(app)
+      .post("/api/issues")
+      .set("Cookie", ownerCookie)
+      .field("title", "Random broken pipe")
+      .field("description", "A pipe is leaking near the square")
+      .field("category", "Water Issue");
+
+    const superAdminCookie = await registerAndLogin("superadmin_issue@test.com", "super_admin");
+    const deleteRes = await request(app)
+      .delete(`/api/issues/${createRes.body.issue._id}`)
+      .set("Cookie", superAdminCookie);
 
     expect(deleteRes.status).toBe(200);
   });

@@ -206,7 +206,8 @@ export default function IssueDetailPage() {
     isAuthenticated &&
     (user?._id === currentIssue.author?._id ||
       user?._id === currentIssue.author ||
-      user?.role === "admin");
+      user?.role === "admin" ||
+      user?.role === "super_admin");
 
   return (
     <div className="min-h-screen bg-[#f8fafc]">
